@@ -1,5 +1,5 @@
 //
-//  EmojiArtDocument .swift
+//  EmojiArtDocument.swift
 //  EmojiArt
 //
 //  Created by Kürşad Saka on 4.03.2022.
@@ -13,6 +13,8 @@ class EmojiArtDocument: ObservableObject {
     
     init() {
         emojiArt = EmojiArtModel()
+        emojiArt.addEmoji("😜", at: (-200, -100), size: 80)
+        emojiArt.addEmoji("😗", at: (50, 100), size: 40)
     }
     
     var emojis: [EmojiArtModel.Emoji] {emojiArt.emojis}
