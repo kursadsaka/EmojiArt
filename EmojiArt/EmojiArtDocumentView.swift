@@ -39,6 +39,9 @@ struct EmojiArtDocumentView: View {
                             .font(.system(size: fontSize(for: emoji)))
                             .scaleEffect(zoomScale)
                             .position(position(for: emoji, in: geometry))
+                            .onDrag {
+                                NSItemProvider(object: String(emoji.id) as NSString)
+                            }
                     }
                 }
             }
@@ -166,6 +169,21 @@ struct EmojiArtDocumentView: View {
     var palette: some View {
         ScrollingEmojisView(emojis: testEmojis)
             .font(.system(size: defaultEmojiFontSize))
+            .onDrop(of: [.plainText], isTargeted: nil) {providers, location in
+                dropToPalette(providers: providers)
+            }
+    }
+    
+    private func dropToPalette(providers: [NSItemProvider]) -> Bool {
+        
+        let found = providers.loadObjects(ofType: String.self) {string in
+            if let id = Int(String(string)) {
+                document.removeEmojiWithId(id)
+            }
+        }
+        
+        return found
+        
     }
     
     let testEmojis = "😀😃😄🤣😉🚜🛻🚚😼🗣🌲🌳🐁🥐🧀🥩🍡🍻"
