@@ -48,6 +48,23 @@ struct PaletteChooser: View {
         AnimatedActionButton(title: "Delete", systemImage: "minus.circle") {
             chosenPaletteIndex = store.removePalette(at: chosenPaletteIndex)
         }
+        goToMenu
+    }
+    
+    var goToMenu: some View {
+        
+        Menu {
+            ForEach(store.palettes) {palette in
+                AnimatedActionButton(title: palette.name) {
+                    if let index = store.palettes.index(matching: palette) {
+                        chosenPaletteIndex = index
+                    }
+                }
+            }
+        } label: {
+            Label("Go To", systemImage: "text.insert")
+        }
+        
     }
     
     func body(for palette: Palette) -> some View {
