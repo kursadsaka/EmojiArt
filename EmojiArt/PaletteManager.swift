@@ -12,13 +12,19 @@ struct PaletteManager: View {
     @EnvironmentObject var store: PaletteStore
     
     var body: some View {
-        List {
-            ForEach(store.palettes) { palette in
-                VStack(alignment: .leading) {
-                    Text(palette.name)
-                    Text(palette.emojis)
+        NavigationView {
+            List {
+                ForEach(store.palettes) { palette in
+                    NavigationLink(destination: PaletteEditor(palette: $store.palettes[palette])) {
+                        VStack(alignment: .leading) {
+                            Text(palette.name)
+                            Text(palette.emojis)
+                        }
+                    }
                 }
             }
+            .navigationTitle("Manage Palettes")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
